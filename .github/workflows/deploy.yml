@@ -26,7 +26,7 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.SERVICE_ACCOUNT }}
-          token_format: 'id_token'
+          token_format: access_token
 
 
       - name: Deploy to Cloud Run
