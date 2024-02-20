@@ -1,34 +1,35 @@
 name: Deploy to Cloud Run from Source
-
 on: 
   push:
     branches:
       - main
 
+permissions:
+      contents: read
+      id-token: write
+
+
 jobs:
   deploy:
+    name: Deploy
     # Add 'id-token' with the intended permissions for workload identity federation
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
     runs-on: ubuntu-latest
 
-    steps:    
-    
-      - uses: actions/checkout@v4
+    steps:
+      - name: Cheackout
+        uses: actions/checkout@v4
 
-        name: Google Auth
+      - name: Google Auth
         id: auth
-      - uses: 'google-github-actions/auth@v2'
+        uses: 'google-github-actions/auth@v2'
         with:
-        project_id: ${{ secrets.PROJECT_ID }}
-        workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
 
 
-        name: Deploy to Cloud Run
+      - name: Deploy to Cloud Run
         id: deploy
-      - uses: google-github-actions/deploy-cloudrun@v2
+        uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: ${{ secrets.SERVICE }}
           region: ${{ secrets.REGION }}
