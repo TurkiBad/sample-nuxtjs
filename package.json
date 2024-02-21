@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "rm -r _static 2>/dev/null; nuxt build && nuxt export && mv dist _static && (rm _static/README.md || true)",
-    "start": "nuxt generate && nuxt start",
+    "build": "nuxt build",
+    "start": "nuxt start",
     "export": "nuxt export",
     "serve": "nuxt serve"
   },

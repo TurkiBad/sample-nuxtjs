@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Install the dependencies
 RUN yarn install
+RUN yarn build
 
 # Copy the application code
 COPY . /app
