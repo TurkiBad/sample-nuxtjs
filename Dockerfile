@@ -1,5 +1,5 @@
 # Use an official Node.js image as the base
-FROM node:14
+FROM node:18
 
 # Set the working directory to /app
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN yarn install
 
 # Copy the application code
-COPY . .
+COPY . /app
 
 # Expose the port
 EXPOSE 3000
