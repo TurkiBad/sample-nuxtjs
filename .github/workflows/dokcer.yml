@@ -35,8 +35,8 @@ jobs:
         id: docker-auth
         uses: 'docker/login-action@v3'
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN }}
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
           registry: gcr.io
 
 
