@@ -9,13 +9,12 @@ COPY package*.json ./
 
 # Install the dependencies
 RUN yarn install
-RUN yarn build
 
 # Copy the application code
 COPY . /app
 
 # Expose the port
-EXPOSE 80
+EXPOSE 8080
 
 # Run the command to start the application
 CMD ["yarn", "start"]
