@@ -96,7 +96,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
-          registry: ${{ env.GAR_LOCATION }}-docker.pkg.dev
+          registry: gcr.io
           
       # NOTE: Alternative option - authentication via credentials json
       # - name: Docker Auth
