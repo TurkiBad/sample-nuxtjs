@@ -17,7 +17,7 @@ COPY . .
 RUN yarn build
 
 # Expose the port on which the application will run
-EXPOSE 8080
+EXPOSE 80
 
 # Start the application
 CMD [ "yarn", "start" ]
