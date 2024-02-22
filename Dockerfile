@@ -29,4 +29,4 @@ COPY --from=builder /app ./
 EXPOSE 8080
 
 # Set the default command to start the Nuxt.js app in production mode
-CMD ["yarn", "start"]
+CMD ["yarn", "generate" "start"]
