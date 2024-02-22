@@ -23,7 +23,7 @@ FROM node:18 AS runner
 WORKDIR /app
 
 # Copy only the generated `dist` folder
-COPY --from=builder /app/dist ./
+COPY --from=builder /app ./
 
 # Expose the port Cloud Run provides (environment variable)
 EXPOSE 8080
