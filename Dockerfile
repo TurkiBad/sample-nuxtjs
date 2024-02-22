@@ -5,7 +5,7 @@ FROM node:18 AS builder
 WORKDIR /app
 
 # Copy package.json or yarn.lock for dependency installation
-COPY package*.json OR yarn.lock ./
+COPY package*.json
 
 # Install dependencies (using yarn)
 RUN yarn install
