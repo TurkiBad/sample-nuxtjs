@@ -17,7 +17,6 @@ COPY . .
 RUN yarn build
 
 # Expose the port on which the application will run
-ENV PORT=8080
 EXPOSE 8080
 
 # Start the application
