@@ -7,6 +7,8 @@ WORKDIR /app
 # Copy package.json or yarn.lock for dependency installation
 COPY yarn.lock ./
 
+RUN nuxt generate
+
 # Install dependencies (adjust the command if needed)
 RUN yarn install
 
