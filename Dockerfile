@@ -5,7 +5,7 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Copy package.json or yarn.lock for dependency installation
-COPY package*.json ./
+COPY package*.json yarn.lock ./
 
 # Install dependencies (using yarn in your case)
 RUN yarn install --production
@@ -13,7 +13,6 @@ RUN yarn install --production
 # Copy the entire project to the container
 COPY . .
 
-# **Generate static files**: Ensure this runs before `yarn build`
 RUN yarn nuxt generate
 
 # New stage for optimized runtime image
@@ -23,7 +22,7 @@ FROM node:18-alpine AS runner
 WORKDIR /app
 
 # Copy only the generated `dist` folder (if nuxt.config.js outputDir is set to dist)
-COPY --from=builder /app/dist ./
+COPY --from=builder /app ./
 
 # Expose the port Cloud Run provides (environment variable)
 EXPOSE 8080
