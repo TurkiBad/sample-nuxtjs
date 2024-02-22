@@ -5,18 +5,19 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Copy package.json or yarn.lock for dependency installation
-COPY yarn.lock ./
+COPY package*.json OR yarn.lock ./
 
-RUN nuxt generate
-
-# Install dependencies (adjust the command if needed)
+# Install dependencies (using yarn)
 RUN yarn install
 
 # Copy the rest of your app's source code
 COPY . .
 
-# Build the Nuxt.js app for production
-RUN yarn build
+# **Place here:** Install nuxt globally using yarn
+RUN yarn global add nuxt
+
+# **Place here:** Generate static files before building
+RUN nuxt generate
 
 # New stage for optimized runtime image
 FROM node:18-alpine AS runner
