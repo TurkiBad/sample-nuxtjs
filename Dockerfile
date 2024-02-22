@@ -1,20 +1,32 @@
-# Use an official Node.js image as the base
-FROM node:18
+# Base image (choose a recent, secure Node.js version)
+FROM node:18-alpine AS builder
 
-# Set the working directory to /app
+# Work directory
 WORKDIR /app
 
-# Copy the dependencies file
-COPY package*.json ./
+# Copy package.json or yarn.lock for dependency installation
+COPY yarn.lock ./
 
-# Install the dependencies
+# Install dependencies (adjust the command if needed)
 RUN yarn install
 
-# Copy the application code
-COPY . /app
+# Copy the rest of your app's source code
+COPY . .
 
-# Expose the port
-EXPOSE 8080
+# Build the Nuxt.js app for production
+RUN yarn build
 
-# Run the command to start the application
+# New stage for optimized runtime image
+FROM node:18-alpine AS runner
+
+# Work directory
+WORKDIR /app
+
+# Copy only the generated `dist` folder
+COPY --from=builder /app/dist ./
+
+# Expose the port Cloud Run provides (environment variable)
+EXPOSE $PORT
+
+# Set the default command to start the Nuxt.js app in production mode
 CMD ["yarn", "start"]
