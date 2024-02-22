@@ -1,5 +1,5 @@
 # Base image (choose a recent, secure Node.js version)
-FROM node:18-alpine AS builder
+FROM node:18 AS builder
 
 # Work directory
 WORKDIR /app
@@ -16,11 +16,8 @@ COPY . .
 # **Place here:** Install nuxt globally using yarn
 RUN yarn global add nuxt
 
-# **Place here:** Generate static files before building
-RUN nuxt generate
-
 # New stage for optimized runtime image
-FROM node:18-alpine AS runner
+FROM node:18 AS runner
 
 # Work directory
 WORKDIR /app
@@ -29,7 +26,7 @@ WORKDIR /app
 COPY --from=builder /app/dist ./
 
 # Expose the port Cloud Run provides (environment variable)
-EXPOSE $PORT
+EXPOSE 8080
 
 # Set the default command to start the Nuxt.js app in production mode
 CMD ["yarn", "start"]
