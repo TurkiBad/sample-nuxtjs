@@ -1,35 +1,24 @@
-# Base image (choose a recent, secure Node.js version)
-FROM node:18 AS builder
+# Base image
+FROM node:18
 
-# Work directory
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json or yarn.lock for dependency installation
-COPY package*.json ./
+# Copy package.json and yarn.lock to the container
+COPY package.json yarn.lock ./
 
-# Install dependencies (using yarn)
-RUN yarn install
+# Install dependencies
+RUN yarn install --production
 
-# Copy the rest of your app's source code
+# Copy the entire project to the container
 COPY . .
 
-# Install nuxt globally using yarn
-RUN yarn global add nuxt
+# Build the Nuxt.js application
+RUN yarn build
 
-# **Place here:** Generate static files before starting
-RUN nuxt generate
-
-# New stage for optimized runtime image
-FROM node:18 AS runner
-
-# Work directory
-WORKDIR /app
-
-# Copy only the generated `dist` folder
-COPY --from=builder /app/dist ./
-
-# Expose the port Cloud Run provides (environment variable)
+# Expose the port on which the application will run
+ENV PORT=8080
 EXPOSE 8080
 
-# Set the default command to start the Nuxt.js app in production mode
-CMD ["yarn", "start"]
+# Start the application
+CMD [ "yarn", "start" ]
