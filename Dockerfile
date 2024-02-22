@@ -5,7 +5,7 @@ FROM node:18 AS builder
 WORKDIR /app
 
 # Copy package.json or yarn.lock for dependency installation
-COPY package*.json ./
+COPY package*.json OR yarn.lock ./
 
 # Install dependencies (using yarn)
 RUN yarn install
@@ -13,8 +13,11 @@ RUN yarn install
 # Copy the rest of your app's source code
 COPY . .
 
-# **Place here:** Install nuxt globally using yarn
+# Install nuxt globally using yarn
 RUN yarn global add nuxt
+
+# **Place here:** Generate static files before starting
+RUN nuxt generate
 
 # New stage for optimized runtime image
 FROM node:18 AS runner
@@ -23,10 +26,10 @@ FROM node:18 AS runner
 WORKDIR /app
 
 # Copy only the generated `dist` folder
-COPY --from=builder /app ./
+COPY --from=builder /app/dist ./
 
 # Expose the port Cloud Run provides (environment variable)
 EXPOSE 8080
 
 # Set the default command to start the Nuxt.js app in production mode
-CMD ["yarn", "generate" "start"]
+CMD ["yarn", "start"]
