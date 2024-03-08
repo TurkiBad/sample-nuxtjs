@@ -45,7 +45,7 @@ jobs:
 
       - name: Download task def
         run: |
-            aws ecs describe-task-definition --task-definition ECS-Task --query taskDefinition > task-definition.json
+            aws ecs describe-task-definition --task-definition TaskDef --query taskDefinition > task-definition.json
 
 
       - name: Render Amazon ECS task definition
